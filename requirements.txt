@@ -1,0 +1,6 @@
+tkinter
+Pillow==10.1.0
+reportlab==4.0.7
+qrcode==7.4.2
+bcrypt==4.1.1
+python-dateutil==2.8.2
