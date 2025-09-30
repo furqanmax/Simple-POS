@@ -108,3 +108,10 @@
 2025-09-30 23:00:46,680 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 2025-09-30 23:00:46,684 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 2025-09-30 23:01:05,796 - __main__ - INFO - Application closing...
+2025-09-30 23:10:31,797 - __main__ - INFO - Starting POS System...
+2025-09-30 23:10:37,272 - auth - INFO - User admin logged in successfully
+2025-09-30 23:10:37,272 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:10:37,275 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:10:37,364 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:10:37,366 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:10:41,683 - __main__ - INFO - Application closing...
