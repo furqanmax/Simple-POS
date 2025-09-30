@@ -20,7 +20,7 @@ class POSOrderTab:
         self.auth_manager = auth_manager
         self.order_model = OrderModel()
         self.invoice_generator = InvoiceGenerator()
-        self.currency_symbol = '$'  # Default currency
+        self.currency_symbol = '₹'  # Default currency
         
         self.frame = ttk.Frame(parent)
         self._create_widgets()
@@ -132,19 +132,19 @@ class POSOrderTab:
         # Subtotal
         ttk.Label(totals_frame, text="Subtotal:", font=('Helvetica', 10)).grid(
             row=0, column=0, sticky=tk.E, padx=5)
-        self.subtotal_label = ttk.Label(totals_frame, text="$0.00", font=('Helvetica', 10, 'bold'))
+        self.subtotal_label = ttk.Label(totals_frame, text="₹0.00", font=('Helvetica', 10, 'bold'))
         self.subtotal_label.grid(row=0, column=1, sticky=tk.W)
         
         # Tax
         ttk.Label(totals_frame, text="Tax:", font=('Helvetica', 10)).grid(
             row=1, column=0, sticky=tk.E, padx=5)
-        self.tax_label = ttk.Label(totals_frame, text="$0.00", font=('Helvetica', 10))
+        self.tax_label = ttk.Label(totals_frame, text="₹0.00", font=('Helvetica', 10))
         self.tax_label.grid(row=1, column=1, sticky=tk.W)
         
         # Grand total
         ttk.Label(totals_frame, text="Grand Total:", font=('Helvetica', 12, 'bold')).grid(
             row=2, column=0, sticky=tk.E, padx=5)
-        self.total_label = ttk.Label(totals_frame, text="$0.00", font=('Helvetica', 12, 'bold'), 
+        self.total_label = ttk.Label(totals_frame, text="₹0.00", font=('Helvetica', 12, 'bold'), 
                                     foreground='green')
         self.total_label.grid(row=2, column=1, sticky=tk.W)
         
@@ -187,8 +187,8 @@ class POSOrderTab:
             self.items_tree.insert('', 'end', values=(
                 item['name'],
                 f"{item['quantity']:.2f}",
-                f"${item['unit_price']:.2f}",
-                f"${item['line_total']:.2f}"
+                f"{self.currency_symbol}{item['unit_price']:.2f}",
+                f"{self.currency_symbol}{item['line_total']:.2f}"
             ))
             
             # Update totals
@@ -265,7 +265,7 @@ class POSOrderTab:
                 cursor.execute("SELECT currency_symbol, default_tax_rate FROM settings WHERE id = 1")
                 settings = cursor.fetchone()
                 if settings:
-                    self.currency_symbol = settings['currency_symbol'] or '$'
+                    self.currency_symbol = settings['currency_symbol'] or '₹'
                     self.tax_rate_var.set(str(settings['default_tax_rate']))
                     self.order_model.set_tax_rate(float(settings['default_tax_rate']))
                     
@@ -275,7 +275,7 @@ class POSOrderTab:
         except Exception as e:
             logger.error(f"Error loading user preferences: {e}")
             # Set defaults on error
-            self.currency_symbol = '$'
+            self.currency_symbol = '₹'
             self.tax_rate_var.set("0")
     
     def update_totals(self):
@@ -353,8 +353,8 @@ class POSOrderTab:
                 self.items_tree.insert('', 'end', values=(
                     added_item['name'],
                     f"{added_item['quantity']:.2f}",
-                    f"${added_item['unit_price']:.2f}",
-                    f"${added_item['line_total']:.2f}"
+                    f"{self.currency_symbol}{added_item['unit_price']:.2f}",
+                    f"{self.currency_symbol}{added_item['line_total']:.2f}"
                 ))
             except Exception as e:
                 logger.error(f"Error applying template item: {e}")

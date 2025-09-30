@@ -372,7 +372,7 @@ class InvoiceGenerator:
     
     def _build_items_table(self, items, settings):
         """Build items table"""
-        currency = settings.get('currency_symbol', '$')
+        currency = settings.get('currency_symbol', '₹')
         
         # Table headers
         data = [['Item', 'Qty', 'Unit Price', 'Total']]
@@ -418,7 +418,7 @@ class InvoiceGenerator:
     
     def _build_totals_table(self, order, settings):
         """Build totals table"""
-        currency = settings.get('currency_symbol', '$')
+        currency = settings.get('currency_symbol', '₹')
         
         data = [
             ['Subtotal:', f"{currency}{order['subtotal']:.2f}"],

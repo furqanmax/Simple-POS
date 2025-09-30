@@ -205,7 +205,7 @@ class FrequentOrdersTab:
             self.items_tree.insert('', 'end', values=(
                 item['name'],
                 f"{item['quantity']:.2f}",
-                f"${item['unit_price']:.2f}"
+                f"₹{item['unit_price']:.2f}"
             ))
     
     def new_template(self):
@@ -259,7 +259,7 @@ class FrequentOrdersTab:
             self.items_tree.insert('', 'end', values=(
                 name,
                 f"{qty:.2f}",
-                f"${price:.2f}"
+                f"₹{price:.2f}"
             ))
             
             # Clear inputs
@@ -296,7 +296,7 @@ class FrequentOrdersTab:
             items.append({
                 'name': values[0],
                 'quantity': float(values[1]),
-                'unit_price': float(values[2].replace('$', ''))
+                'unit_price': float(values[2].replace('₹', '').replace('$', ''))
             })
         
         if not items:
@@ -443,7 +443,7 @@ class OrderHistoryTab:
                     datetime.fromisoformat(order['created_at']).strftime('%Y-%m-%d %H:%M'),
                     order['username'],
                     item_count,
-                    f"${order['grand_total']:.2f}",
+                    f"₹{order['grand_total']:.2f}",
                     order['status'].upper()
                 ))
                 
@@ -499,8 +499,8 @@ class OrderHistoryTab:
             items_tree.insert('', 'end', values=(
                 item['name'],
                 f"{item['quantity']:.2f}",
-                f"${item['unit_price']:.2f}",
-                f"${item['line_total']:.2f}"
+                f"₹{item['unit_price']:.2f}",
+                f"₹{item['line_total']:.2f}"
             ))
         
         items_tree.pack(fill='both', expand=True)
@@ -509,9 +509,9 @@ class OrderHistoryTab:
         totals_frame = ttk.Frame(detail_window)
         totals_frame.pack(fill='x', padx=10, pady=10)
         
-        ttk.Label(totals_frame, text=f"Subtotal: ${order['subtotal']:.2f}").pack(anchor='e')
-        ttk.Label(totals_frame, text=f"Tax ({order['tax_rate']}%): ${order['tax_total']:.2f}").pack(anchor='e')
-        ttk.Label(totals_frame, text=f"Grand Total: ${order['grand_total']:.2f}", 
+        ttk.Label(totals_frame, text=f"Subtotal: ₹{order['subtotal']:.2f}").pack(anchor='e')
+        ttk.Label(totals_frame, text=f"Tax ({order['tax_rate']}%): ₹{order['tax_total']:.2f}").pack(anchor='e')
+        ttk.Label(totals_frame, text=f"Grand Total: ₹{order['grand_total']:.2f}", 
                  font=('Helvetica', 10, 'bold')).pack(anchor='e')
     
     def print_invoice(self):
@@ -1537,7 +1537,7 @@ class UserPreferencesTab:
                 '$': '$ (USD)', '€': '€ (EUR)', '£': '£ (GBP)', 
                 '¥': '¥ (JPY)', '₹': '₹ (INR)', '₽': '₽ (RUB)', 'R': 'R (ZAR)'
             }
-            self.currency_var.set(currency_map.get(currency, '$ (USD)'))
+            self.currency_var.set(currency_map.get(currency, '₹ (INR)'))
             self.date_format_var.set(user_prefs['date_format'] or "MM/DD/YYYY")
             self.language_var.set(user_prefs['language'] or "English")
             self.tax_rate_var.set(str(user_prefs['tax_rate'] if user_prefs['tax_rate'] is not None else system_settings['default_tax_rate']))
@@ -1553,7 +1553,7 @@ class UserPreferencesTab:
                 '$': '$ (USD)', '€': '€ (EUR)', '£': '£ (GBP)', 
                 '¥': '¥ (JPY)', '₹': '₹ (INR)', '₽': '₽ (RUB)'
             }
-            self.currency_var.set(currency_map.get(currency, '$ (USD)'))
+            self.currency_var.set(currency_map.get(currency, '₹ (INR)'))
             self.tax_rate_var.set(str(system_settings['default_tax_rate']))
             
             # Set other defaults
@@ -1575,7 +1575,7 @@ class UserPreferencesTab:
             
             # Extract currency symbol
             currency_full = self.currency_var.get()
-            currency_symbol = currency_full.split()[0] if currency_full else '$'
+            currency_symbol = currency_full.split()[0] if currency_full else '₹'
             
             # Save to database
             conn = db.get_connection()

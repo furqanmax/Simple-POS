@@ -118,7 +118,7 @@ class Database:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS settings (
                 id INTEGER PRIMARY KEY DEFAULT 1,
-                currency_symbol TEXT DEFAULT '$',
+                currency_symbol TEXT DEFAULT '₹',
                 default_tax_rate DECIMAL(5,2) DEFAULT 0,
                 locale TEXT DEFAULT 'en_US',
                 time_zone TEXT DEFAULT 'UTC',
@@ -161,7 +161,7 @@ class Database:
         # Insert default settings if not exists
         cursor.execute("""
             INSERT OR IGNORE INTO settings (id, currency_symbol, default_tax_rate, locale, time_zone)
-            VALUES (1, '$', 0, 'en_US', 'UTC')
+            VALUES (1, '₹', 0, 'en_US', 'UTC')
         """)
         
         # Create default admin user if no users exist

@@ -195,7 +195,7 @@ class OrderModel:
             'grand_total': self.get_grand_total(),
             'template': template_data,
             'settings': {
-                'currency_symbol': settings['currency_symbol'] if settings else '$',
+                'currency_symbol': settings['currency_symbol'] if settings else '₹',
                 'locale': settings['locale'] if settings else 'en_US',
                 'time_zone': settings['time_zone'] if settings else 'UTC',
                 'page_size': settings['page_size'] if settings else 'A4'
