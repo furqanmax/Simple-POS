@@ -115,3 +115,97 @@
 2025-09-30 23:10:37,364 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 2025-09-30 23:10:37,366 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 2025-09-30 23:10:41,683 - __main__ - INFO - Application closing...
+2025-09-30 23:26:25,898 - __main__ - INFO - Starting POS System...
+2025-09-30 23:26:35,783 - auth - INFO - User admin logged in successfully
+2025-09-30 23:26:35,783 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:26:35,787 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:28:59,907 - __main__ - INFO - Starting POS System...
+2025-09-30 23:29:04,962 - auth - INFO - User admin logged in successfully
+2025-09-30 23:29:04,962 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:29:04,966 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:29:05,073 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:29:05,074 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:32:21,206 - __main__ - INFO - Application closing...
+2025-09-30 23:32:54,938 - __main__ - INFO - Starting POS System...
+2025-09-30 23:32:59,590 - auth - INFO - User admin logged in successfully
+2025-09-30 23:32:59,590 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:32:59,594 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:33:03,297 - __main__ - INFO - Starting POS System...
+2025-09-30 23:33:08,018 - auth - INFO - User admin logged in successfully
+2025-09-30 23:33:08,018 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:33:08,023 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:33:41,176 - __main__ - INFO - Starting POS System...
+2025-09-30 23:33:45,624 - auth - INFO - User admin logged in successfully
+2025-09-30 23:33:45,624 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:33:45,628 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:33:45,703 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:33:45,704 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:34:27,779 - invoice_generator - INFO - Invoice generated for order 16: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_16_20250930_233427.pdf
+2025-09-30 23:34:45,997 - __main__ - INFO - Application closing...
+2025-09-30 23:34:53,086 - database - INFO - Created default admin user (username: admin, password: admin123)
+2025-09-30 23:34:53,086 - database - INFO - Created default invoice template
+2025-09-30 23:34:53,398 - __main__ - INFO - Starting POS System...
+2025-09-30 23:34:57,119 - auth - INFO - User admin logged in successfully
+2025-09-30 23:34:57,120 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:34:57,124 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:35:01,623 - __main__ - INFO - Starting POS System...
+2025-09-30 23:35:05,493 - auth - WARNING - Failed login attempt for username: amdin
+2025-09-30 23:35:08,335 - auth - WARNING - Failed login attempt for username: amdin
+2025-09-30 23:35:15,107 - auth - WARNING - Failed login attempt for username: amdin
+2025-09-30 23:35:21,975 - __main__ - INFO - Starting POS System...
+2025-09-30 23:35:28,566 - auth - INFO - User admin logged in successfully
+2025-09-30 23:35:28,566 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:35:28,569 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:35:28,649 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:35:28,650 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:36:18,157 - __main__ - INFO - Application closing...
+2025-09-30 23:45:03,391 - __main__ - INFO - Starting POS System...
+2025-09-30 23:45:09,150 - auth - INFO - User admin logged in successfully
+2025-09-30 23:45:09,150 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:45:09,154 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:51:38,983 - __main__ - INFO - Starting POS System...
+2025-09-30 23:51:44,130 - auth - INFO - User admin logged in successfully
+2025-09-30 23:51:44,130 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:51:44,133 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:51:44,228 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:51:44,229 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:52:15,241 - models - INFO - Order 1002 finalized successfully
+2025-09-30 23:52:16,507 - invoice_generator_enhanced - INFO - Thermal invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1002_thermal_76_preview_20250930_235216.pdf
+2025-09-30 23:52:33,176 - invoice_generator_enhanced - INFO - Thermal invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1002_thermal_76_20250930_235233.pdf
+2025-09-30 23:53:15,378 - invoice_generator - INFO - Invoice generated for order 1002: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1002_20250930_235315.pdf
+2025-09-30 23:54:07,281 - __main__ - INFO - Application closing...
+2025-09-30 23:54:43,506 - __main__ - INFO - Starting POS System...
+2025-09-30 23:54:50,933 - auth - INFO - User admin logged in successfully
+2025-09-30 23:54:50,933 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:54:50,937 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:54:54,676 - __main__ - INFO - Starting POS System...
+2025-09-30 23:55:00,817 - auth - INFO - User admin logged in successfully
+2025-09-30 23:55:00,818 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:55:00,821 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:55:04,014 - __main__ - INFO - Starting POS System...
+2025-09-30 23:55:09,767 - auth - INFO - User admin logged in successfully
+2025-09-30 23:55:09,767 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:55:09,772 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:55:25,252 - __main__ - INFO - Starting POS System...
+2025-09-30 23:55:31,882 - auth - INFO - User admin logged in successfully
+2025-09-30 23:55:31,882 - login_window - INFO - User admin logged in successfully
+2025-09-30 23:55:31,886 - __main__ - INFO - User admin (admin) logged in
+2025-09-30 23:55:31,964 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-09-30 23:55:31,965 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-10-01 00:01:47,378 - __main__ - INFO - Application closing...
+2025-10-01 00:01:51,601 - __main__ - INFO - Starting POS System...
+2025-10-01 00:02:01,751 - auth - INFO - User admin logged in successfully
+2025-10-01 00:02:01,751 - login_window - INFO - User admin logged in successfully
+2025-10-01 00:02:01,756 - __main__ - INFO - User admin (admin) logged in
+2025-10-01 00:02:01,836 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-10-01 00:02:01,837 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-10-01 00:02:35,060 - invoice_generator - INFO - Invoice generated for order 999: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_999_20251001_000235.pdf
+2025-10-01 00:03:02,357 - models - INFO - Order 1003 finalized successfully
+2025-10-01 00:03:03,629 - invoice_generator_enhanced - INFO - Invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_long_strip_preview_20251001_000303.pdf
+2025-10-01 00:03:12,352 - invoice_generator_enhanced - INFO - Thermal invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_thermal_57_preview_20251001_000312.pdf
+2025-10-01 00:03:16,636 - invoice_generator_enhanced - INFO - Invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_half_letter_preview_20251001_000316.pdf
+2025-10-01 00:03:20,222 - invoice_generator_enhanced - INFO - Invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_half_letter_preview_20251001_000320.pdf
+2025-10-01 00:03:22,883 - invoice_generator_enhanced - INFO - Invoice generated: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_half_letter_20251001_000322.pdf
+2025-10-01 00:03:49,958 - invoice_generator - INFO - Invoice generated for order 1002: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1002_20251001_000349.pdf
+2025-10-01 00:03:58,065 - invoice_generator - INFO - Invoice generated for order 1003: /home/eshare/wordpress-6.8.1/simple pos/Simple-POS/invoices/invoice_1003_20251001_000358.pdf
+2025-10-01 00:04:12,980 - __main__ - INFO - Application closing...

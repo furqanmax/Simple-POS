@@ -7,6 +7,9 @@ from decimal import Decimal
 import logging
 from models import OrderModel, FrequentOrderModel
 from invoice_generator import InvoiceGenerator
+from invoice_generator_enhanced import EnhancedInvoiceGenerator
+from invoice_preview_dialog import show_invoice_preview
+from invoice_formats import BillSize, LayoutStyle
 from database import db
 import subprocess
 import platform
@@ -390,31 +393,27 @@ class POSOrderTab:
             return None
     
     def finalize_and_print(self):
-        """Finalize order and print invoice"""
+        """Finalize order and show invoice preview for printing"""
         order_id = self.finalize_order()
         if order_id:
-            self.print_invoice(order_id)
+            # Show invoice preview dialog with format selection
+            show_invoice_preview(self.parent, order_id, self.auth_manager)
     
     def print_invoice(self, order_id):
-        """Generate and print invoice"""
+        """Generate and print invoice with format selection"""
         try:
-            # Generate PDF
-            pdf_path = self.invoice_generator.generate_invoice(order_id)
-            
-            # Try to print
-            if platform.system() == 'Windows':
-                os.startfile(pdf_path, "print")
-            elif platform.system() == 'Darwin':  # macOS
-                subprocess.run(['lpr', pdf_path])
-            else:  # Linux
-                subprocess.run(['lpr', pdf_path])
-            
-            messagebox.showinfo("Success", f"Invoice sent to printer.\nPDF saved: {pdf_path}")
+            # Show invoice preview dialog for format selection and printing
+            show_invoice_preview(self.parent, order_id, self.auth_manager)
             
         except Exception as e:
-            logger.error(f"Error printing invoice: {e}")
-            messagebox.showwarning("Print Error", 
-                                 f"Could not print invoice.\nPDF saved at: {pdf_path}")
+            logger.error(f"Error showing invoice preview: {e}")
+            # Fallback to original generator if enhanced fails
+            try:
+                pdf_path = self.invoice_generator.generate_invoice(order_id)
+                messagebox.showinfo("Success", f"Invoice generated: {pdf_path}")
+            except Exception as e2:
+                logger.error(f"Error generating invoice: {e2}")
+                messagebox.showerror("Error", "Failed to generate invoice")
     
     def refresh(self):
         """Refresh the tab with latest preferences"""

@@ -124,6 +124,11 @@ class Database:
                 time_zone TEXT DEFAULT 'UTC',
                 page_size TEXT DEFAULT 'A4',
                 invoice_folder TEXT DEFAULT 'invoices',
+                default_bill_size TEXT DEFAULT 'A4',
+                default_bill_layout TEXT DEFAULT 'classic',
+                thermal_density INTEGER DEFAULT 32,
+                per_size_margins_json TEXT,
+                font_scale_override DECIMAL(3,2),
                 CHECK (id = 1)
             )
         """)
@@ -176,11 +181,45 @@ class Database:
             )
         """)
         
-        # Add invoice_folder column if it doesn't exist (for existing databases)
+        # Printer profiles table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS printer_profiles (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                device_name TEXT,
+                supported_sizes_json TEXT,
+                margin_caps_json TEXT,
+                is_thermal BOOLEAN DEFAULT 0,
+                is_default BOOLEAN DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Add new columns if they don't exist (for existing databases)
         cursor.execute("PRAGMA table_info(settings)")
         columns = [col[1] for col in cursor.fetchall()]
         if 'invoice_folder' not in columns:
             cursor.execute("ALTER TABLE settings ADD COLUMN invoice_folder TEXT DEFAULT 'invoices'")
+        if 'default_bill_size' not in columns:
+            cursor.execute("ALTER TABLE settings ADD COLUMN default_bill_size TEXT DEFAULT 'A4'")
+        if 'default_bill_layout' not in columns:
+            cursor.execute("ALTER TABLE settings ADD COLUMN default_bill_layout TEXT DEFAULT 'classic'")
+        if 'thermal_density' not in columns:
+            cursor.execute("ALTER TABLE settings ADD COLUMN thermal_density INTEGER DEFAULT 32")
+        if 'per_size_margins_json' not in columns:
+            cursor.execute("ALTER TABLE settings ADD COLUMN per_size_margins_json TEXT")
+        if 'font_scale_override' not in columns:
+            cursor.execute("ALTER TABLE settings ADD COLUMN font_scale_override DECIMAL(3,2)")
+        
+        # Add invoice template columns if they don't exist
+        cursor.execute("PRAGMA table_info(invoice_templates)")
+        template_columns = [col[1] for col in cursor.fetchall()]
+        if 'preferred_bill_size' not in template_columns:
+            cursor.execute("ALTER TABLE invoice_templates ADD COLUMN preferred_bill_size TEXT")
+        if 'preferred_layout' not in template_columns:
+            cursor.execute("ALTER TABLE invoice_templates ADD COLUMN preferred_layout TEXT")
+        if 'size_overrides_json' not in template_columns:
+            cursor.execute("ALTER TABLE invoice_templates ADD COLUMN size_overrides_json TEXT")
         
         # Create indexes for performance
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id)")

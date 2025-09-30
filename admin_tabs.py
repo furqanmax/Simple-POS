@@ -18,6 +18,7 @@ import io
 from database import db
 from models import FrequentOrderModel, OrderHistoryModel
 from invoice_generator import InvoiceGenerator
+from invoice_formats import BillSize, LayoutStyle
 
 logger = logging.getLogger(__name__)
 
@@ -1245,12 +1246,53 @@ class SettingsTab:
         ttk.Entry(general_frame, textvariable=self.tax_rate_var, width=10).grid(
             row=1, column=1, sticky=tk.W, pady=5)
         
-        # Page size
-        ttk.Label(general_frame, text="Invoice Page Size:").grid(row=2, column=0, sticky=tk.W, pady=5)
-        self.page_size_var = tk.StringVar()
-        page_combo = ttk.Combobox(general_frame, textvariable=self.page_size_var,
-                                 values=["A4", "Letter"], state="readonly", width=10)
-        page_combo.grid(row=2, column=1, sticky=tk.W, pady=5)
+        # Invoice Format Section
+        invoice_format_frame = ttk.LabelFrame(general_frame, text="Invoice Format", padding="10")
+        invoice_format_frame.grid(row=2, column=0, columnspan=3, sticky=tk.W+tk.E, pady=10)
+        
+        # Default Bill Size with all 13 formats
+        ttk.Label(invoice_format_frame, text="Default Bill Size:").grid(row=0, column=0, sticky=tk.W, pady=5)
+        self.bill_size_var = tk.StringVar()
+        
+        # Create list of all bill sizes with descriptions
+        bill_size_options = []
+        self.bill_size_mapping = {}  # Map display name to enum value
+        for size in BillSize:
+            if size.is_thermal:
+                desc = f"{size.display_name}"
+            else:
+                desc = f"{size.display_name} ({size.width_mm}×{size.height_mm}mm)"
+            bill_size_options.append(desc)
+            self.bill_size_mapping[desc] = size.name
+        
+        self.bill_size_combo = ttk.Combobox(invoice_format_frame, textvariable=self.bill_size_var,
+                                           values=bill_size_options, state="readonly", width=35)
+        self.bill_size_combo.grid(row=0, column=1, sticky=tk.W, pady=5)
+        self.bill_size_combo.bind('<<ComboboxSelected>>', self._on_bill_size_changed)
+        
+        # Default Layout Style
+        ttk.Label(invoice_format_frame, text="Default Layout Style:").grid(row=1, column=0, sticky=tk.W, pady=5)
+        self.layout_style_var = tk.StringVar()
+        layout_styles = ['Classic', 'Minimal', 'Compact', 'Detailed']
+        self.layout_combo = ttk.Combobox(invoice_format_frame, textvariable=self.layout_style_var,
+                                        values=layout_styles, state="readonly", width=20)
+        self.layout_combo.grid(row=1, column=1, sticky=tk.W, pady=5)
+        
+        # Format info display
+        ttk.Label(invoice_format_frame, text="Format Info:").grid(row=2, column=0, sticky=tk.NW, pady=5)
+        self.size_info_text = tk.Text(invoice_format_frame, width=40, height=3, wrap=tk.WORD)
+        self.size_info_text.grid(row=2, column=1, sticky=tk.W, pady=5)
+        self.size_info_text.config(state='disabled', bg='#f0f0f0')
+        
+        # Thermal settings
+        ttk.Label(invoice_format_frame, text="Thermal Density:").grid(row=3, column=0, sticky=tk.W, pady=5)
+        self.thermal_density_var = tk.StringVar(value="32")
+        thermal_spin = ttk.Spinbox(invoice_format_frame, textvariable=self.thermal_density_var,
+                                  from_=8, to=64, increment=8, width=10)
+        thermal_spin.grid(row=3, column=1, sticky=tk.W, pady=5)
+        
+        # Legacy page size (hidden, for backward compatibility)
+        self.page_size_var = tk.StringVar(value="A4")
         
         # Locale
         ttk.Label(general_frame, text="Locale:").grid(row=3, column=0, sticky=tk.W, pady=5)
@@ -1308,17 +1350,54 @@ class SettingsTab:
         if settings:
             self.currency_var.set(settings['currency_symbol'])
             self.tax_rate_var.set(str(settings['default_tax_rate']))
-            self.page_size_var.set(settings['page_size'])
             self.locale_var.set(settings['locale'])
             self.timezone_var.set(settings['time_zone'])
             
-            # Set invoice folder, default to 'invoices' if not set
-            # sqlite3.Row objects use dictionary-style access, not get() method
+            # Load bill size - check for new field first, fallback to page_size
+            if 'default_bill_size' in settings.keys() and settings['default_bill_size']:
+                # Find the matching bill size and set combo
+                try:
+                    target_size = BillSize[settings['default_bill_size']]
+                    for i, option in enumerate(self.bill_size_combo['values']):
+                        if self.bill_size_mapping.get(option) == target_size.name:
+                            self.bill_size_combo.current(i)
+                            self._on_bill_size_changed()
+                            break
+                except (KeyError, ValueError):
+                    # Default to A4 if invalid
+                    self._set_default_bill_size()
+            else:
+                # Try legacy page_size field
+                if settings['page_size'] == 'Letter':
+                    self._set_bill_size_by_name('LETTER')
+                else:
+                    self._set_default_bill_size()
+            
+            # Load layout style
+            if 'default_bill_layout' in settings.keys() and settings['default_bill_layout']:
+                layout_map = {
+                    'classic': 'Classic',
+                    'minimal': 'Minimal', 
+                    'compact': 'Compact',
+                    'detailed': 'Detailed'
+                }
+                if settings['default_bill_layout'] in layout_map:
+                    self.layout_combo.set(layout_map[settings['default_bill_layout']])
+            else:
+                self.layout_combo.set('Classic')
+            
+            # Load thermal density
+            if 'thermal_density' in settings.keys() and settings['thermal_density']:
+                self.thermal_density_var.set(str(settings['thermal_density']))
+            
+            # Set invoice folder
             invoice_folder = settings['invoice_folder'] if settings['invoice_folder'] else 'invoices'
             if not os.path.isabs(invoice_folder):
-                # If relative path, make it relative to the app directory
                 invoice_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), invoice_folder)
             self.invoice_folder_var.set(invoice_folder)
+            
+            # Keep page_size_var for compatibility
+            self.page_size_var.set(settings['page_size'])
     
     def save_settings(self):
         """Save settings to database"""
@@ -1326,6 +1405,22 @@ class SettingsTab:
             tax_rate = float(self.tax_rate_var.get())
             if tax_rate < 0 or tax_rate > 100:
                 raise ValueError("Tax rate must be between 0 and 100")
+            
+            # Get selected bill size
+            selected_option = self.bill_size_var.get()
+            bill_size_name = self.bill_size_mapping.get(selected_option, 'A4')
+            
+            # Get layout style
+            layout_map = {
+                'Classic': 'classic',
+                'Minimal': 'minimal',
+                'Compact': 'compact',
+                'Detailed': 'detailed'
+            }
+            layout_style = layout_map.get(self.layout_style_var.get(), 'classic')
+            
+            # Get thermal density
+            thermal_density = int(self.thermal_density_var.get() or "32")
             
             conn = db.get_connection()
             cursor = conn.cursor()
@@ -1335,28 +1430,95 @@ class SettingsTab:
             if invoice_folder:
                 os.makedirs(invoice_folder, exist_ok=True)
             
+            # Update with new fields
             cursor.execute("""
                 UPDATE settings
                 SET currency_symbol = ?, default_tax_rate = ?, locale = ?, 
-                    time_zone = ?, page_size = ?, invoice_folder = ?
+                    time_zone = ?, page_size = ?, invoice_folder = ?,
+                    default_bill_size = ?, default_bill_layout = ?, 
+                    thermal_density = ?
                 WHERE id = 1
             """, (
                 self.currency_var.get(),
                 tax_rate,
                 self.locale_var.get(),
                 self.timezone_var.get(),
-                self.page_size_var.get(),
-                invoice_folder
+                self.page_size_var.get(),  # Keep for compatibility
+                invoice_folder,
+                bill_size_name,
+                layout_style,
+                thermal_density
             ))
             
             conn.commit()
-            messagebox.showinfo("Success", "Settings saved successfully")
+            messagebox.showinfo("Success", "Settings saved successfully\n\nNew invoices will use:\n" +
+                              f"{selected_option}\nLayout: {self.layout_style_var.get()}")
             
         except ValueError as e:
             messagebox.showerror("Error", str(e))
         except Exception as e:
             logger.error(f"Error saving settings: {e}")
             messagebox.showerror("Error", "Failed to save settings")
+    
+    def _on_bill_size_changed(self, event=None):
+        """Update info when bill size is changed"""
+        try:
+            # Get selected index
+            index = self.bill_size_combo.current()
+            if index >= 0:
+                selected_size = list(BillSize)[index]
+                
+                # Update info text
+                info_lines = []
+                info_lines.append(f"Type: {'Thermal Receipt' if selected_size.is_thermal else 'Paper Document'}")
+                
+                if selected_size.is_continuous:
+                    info_lines.append(f"Width: {selected_size.width_mm}mm")
+                    info_lines.append("Height: Continuous feed")
+                else:
+                    info_lines.append(f"Dimensions: {selected_size.width_mm} × {selected_size.height_mm}mm")
+                    info_lines.append(f"({selected_size.width_inches:.1f} × {selected_size.height_inches:.1f} inches)")
+                
+                # Recommend layout style for thermal
+                if selected_size.is_thermal:
+                    info_lines.append("Recommended: Compact layout")
+                    # Auto-select compact layout for thermal
+                    if self.layout_style_var.get() != 'Compact':
+                        self.layout_combo.set('Compact')
+                
+                # Update info display
+                self.size_info_text.config(state='normal')
+                self.size_info_text.delete(1.0, tk.END)
+                self.size_info_text.insert(1.0, '\n'.join(info_lines))
+                self.size_info_text.config(state='disabled')
+        except Exception as e:
+            logger.error(f"Error updating bill size info: {e}")
+    
+    def _set_default_bill_size(self):
+        """Set default bill size to A4"""
+        try:
+            # Find A4 in the combo options
+            for i, option in enumerate(self.bill_size_combo['values']):
+                if self.bill_size_mapping.get(option) == 'A4':
+                    self.bill_size_combo.current(i)
+                    self._on_bill_size_changed()
+                    break
+        except Exception as e:
+            logger.error(f"Error setting default bill size: {e}")
+            # Fallback to first option
+            self.bill_size_combo.current(0)
+    
+    def _set_bill_size_by_name(self, size_name):
+        """Set bill size by enum name"""
+        try:
+            for i, option in enumerate(self.bill_size_combo['values']):
+                if self.bill_size_mapping.get(option) == size_name:
+                    self.bill_size_combo.current(i)
+                    self._on_bill_size_changed()
+                    break
+        except Exception as e:
+            logger.error(f"Error setting bill size by name: {e}")
+            self._set_default_bill_size()
     
     def update_system_info(self):
         """Update system information display"""
