@@ -147,6 +147,35 @@ class Database:
             )
         """)
         
+        # Installments table for tracking payment installments
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS installments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                order_id INTEGER,
+                customer_name TEXT NOT NULL,
+                customer_phone TEXT,
+                amount DECIMAL(10,2) NOT NULL,
+                due_date TIMESTAMP NOT NULL,
+                paid_date TIMESTAMP,
+                status TEXT NOT NULL CHECK (status IN ('pending', 'paid', 'overdue')),
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (order_id) REFERENCES orders(id)
+            )
+        """)
+        
+        # Subscription table for tracking system subscription
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS subscription (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                plan_name TEXT NOT NULL,
+                start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                end_date TIMESTAMP NOT NULL,
+                features_json TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
         # Add invoice_folder column if it doesn't exist (for existing databases)
         cursor.execute("PRAGMA table_info(settings)")
         columns = [col[1] for col in cursor.fetchall()]
@@ -157,6 +186,8 @@ class Database:
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items(order_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_installments_due_date ON installments(due_date)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_installments_status ON installments(status)")
         
         # Insert default settings if not exists
         cursor.execute("""

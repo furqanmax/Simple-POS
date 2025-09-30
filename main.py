@@ -27,6 +27,7 @@ from database import db
 from auth import auth_manager
 from login_window import LoginWindow
 from pos_order_tab import POSOrderTab
+from dashboard import DashboardTab
 from admin_tabs import (
     FrequentOrdersTab,
     OrderHistoryTab,
@@ -146,6 +147,11 @@ class POSApplication:
     
     def _create_tabs(self):
         """Create tabs based on user role"""
+        # Dashboard tab - available to all users (primary tab)
+        dashboard_tab = DashboardTab(self.notebook, auth_manager)
+        self.notebook.add(dashboard_tab.get_frame(), text="📊 Dashboard")
+        self.tabs['dashboard'] = dashboard_tab
+        
         # POS Order tab - available to all users
         pos_tab = POSOrderTab(self.notebook, auth_manager)
         self.notebook.add(pos_tab.get_frame(), text="📝 POS Order")

@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c61e45d-9767-4956-bf0d-ef05e406fc59" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/admin_tabs.py" beforeDir="false" afterPath="$PROJECT_DIR$/admin_tabs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/invoice_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos_order_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/pos_order_tab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos_system.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos_system.log" beforeDir="false" afterPath="$PROJECT_DIR$/pos_system.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +75,7 @@
       <workItem from="1759055995940" duration="4895000" />
       <workItem from="1759130910778" duration="11000" />
       <workItem from="1759246423304" duration="312000" />
-      <workItem from="1759247122112" duration="3470000" />
+      <workItem from="1759247122112" duration="6273000" />
     </task>
     <servers />
   </component>
